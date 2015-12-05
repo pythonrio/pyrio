@@ -1,3 +1,4 @@
+from django.utils import timezone
 from django.db import models
 
 
@@ -7,6 +8,14 @@ class Edicao(models.Model):
     latitude = models.IntegerField()
     longitude = models.IntegerField()
     sobre = models.TextField()
+
+    @classmethod
+    def get_edicao_atual(cls):
+        proxima_edicao = cls.objects.filter(data__gte=timezone.now()).first()
+        if not proxima_edicao:
+            return cls.objects.latest('data')
+
+        return proxima_edicao
 
     def __str__(self):
         return '{}'.format(self.data)

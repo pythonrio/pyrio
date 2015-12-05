@@ -95,11 +95,7 @@
 
   <section class="about" id="about">
     <h2 class="section-title">Sobre</h2>
-<p itemprop="description">Acabou a tristeza! A galera de Python do Rio vai se encontrar novamente e trocar uma ideia.</p>
-
-<p>Como nosso espaço é limitado, precisamos que registrem-se <a href="http://www.eventick.com.br/meetup-python-rio">aqui</a>. Temos apenas 30 vagas!</p>
-
-<p>Caso tenha se inscrito mas não poderá comparecer, pedimos que nos informe através da <a href="https://www.facebook.com/events/398543193635749/">página do evento no facebook</a>.</p>
+    {{ edicao.sobre|linebreaks }}
   </section>
 
   <!-- / ABOUT -->
@@ -170,30 +166,20 @@
 
   <!-- PARTNERS -->
 
+  {% if partners %}
   <section class="partners" id="partners">
     <h2 class="section-title">Parceiros</h2>
-<ul class="partners-list">
-
-
-  <li class="partner-item" itemscope itemtype="http://schema.org/Organization">
-    <a href="http://www.nitisoffice.com.br/" class="partner-logo partner-link" itemprop="url">
-      <img src="themes/blue-is-the-warmest-color/custom/nitis_logo.png" alt="Nitis Office" class="photo" itemprop="image">
-    </a>
-  </li>
-
-  <li class="partner-item" itemscope itemtype="http://schema.org/Organization">
-    <a href="http://www.hotelurbano.com/" class="partner-logo partner-link" itemprop="url">
-      <img src="themes/blue-is-the-warmest-color/custom/hotel_urbano.jpg" alt="Hotel Urbano" class="photo" itemprop="image">
-    </a>
-  </li>
-
-  <!-- <li class="partner-item">
-    <a class="partner-logo partner-link partner-call" href="#">
-        <img src="themes/blue-is-the-warmest-color/img/your-logo.jpg" alt="your logo" class="photo">
-    </a>
-  </li> -->
-</ul>
+    <ul class="partners-list">
+      {% for partner in partners %}
+      <li class="partner-item" itemscope itemtype="http://schema.org/Organization">
+        <a href="http://www.nitisoffice.com.br/" class="partner-logo partner-link" itemprop="url">
+          <img src="themes/blue-is-the-warmest-color/custom/nitis_logo.png" alt="Nitis Office" class="photo" itemprop="image">
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
   </section>
+  {% endif %}
 
   <!-- / PARTNERS -->
 
