@@ -1,0 +1,4 @@
+Django==1.9
+dj-database-url==0.3.0
+
+Pillow==3.0.0
