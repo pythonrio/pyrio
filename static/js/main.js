@@ -12,9 +12,7 @@
     /***
         Google Maps implementation
     ***/
-    conf.map = {
-        marker: '/static/img/marker-default.png'
-    };
+    conf.map = {};
 
     // Google Maps configs
     conf.map.init = function ($element) {
