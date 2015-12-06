@@ -59,6 +59,8 @@ class EventoAdmin(admin.ModelAdmin):
 
         self.message_user(request, '{} {}'.format(len(queryset), message))
 
+    copiar_evento.short_description = 'Copiar Eventos selecionados'
+
 
 @admin.register(models.Palestrante)
 class PalestranteAdmin(admin.ModelAdmin):
