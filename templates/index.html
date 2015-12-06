@@ -4,7 +4,7 @@
 <html itemscope itemtype="http://schema.org/Event">
 <head>
 
-  <title itemprop="name">Meetup PythonRio</title>
+  <title itemprop="name">{{ evento.nome }}</title>
 
   <meta charset="utf-8">
   <meta name="author" content="Meetup PythonRio">
@@ -31,157 +31,141 @@
   <!-- STYLES -->
   <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
   <!-- / STYLES -->
-
 </head>
 <body>
-
   <div class="global">
-
     <!-- NAVIGATION -->
-<nav id="nav">
-  <ul class="wrapper">
+    <nav id="nav">
+      <ul class="wrapper">
+        <li class="nav-item">
+          <a href="#about" title="Sobre" class="nav-link">Sobre</a>
+        </li>
 
-      <li class="nav-item">
-        <a href="#about" title="Sobre" class="nav-link">Sobre</a>
-      </li>
+        <li class="nav-item">
+          <a href="#location" title="Localização" class="nav-link">Localização</a>
+        </li>
 
-      <li class="nav-item">
-        <a href="#location" title="Localização" class="nav-link">Localização</a>
-      </li>
+        <li class="nav-item">
+          <a href="#speakers" title="Convidados" class="nav-link">Convidados</a>
+        </li>
 
-      <li class="nav-item">
-        <a href="#speakers" title="Convidados" class="nav-link">Convidados</a>
-      </li>
+        <li class="nav-item">
+          <a href="#partners" title="Parceiros" class="nav-link">Parceiros</a>
+        </li>
 
-      <li class="nav-item">
-        <a href="#partners" title="Parceiros" class="nav-link">Parceiros</a>
-      </li>
+        <li class="nav-item">
+          <a href="#contact" title="Contato" class="nav-link">Contato</a>
+        </li>
+      </ul>
+    </nav>
 
-  </ul>
-</nav>
+    <hr>
 
-<hr>
+    <!-- HEADER -->
+    <header class="header">
+      <div class="wrapper">
+        <img src="{% static 'img/pythonrio.png' %}" />
+        <h1 class="logo-name">
+          <a class="logo-link" href="#" title="Meetup PythonRio" itemprop="name">{{ evento.nome }}</a>
+        </h1>
+        <h2 class="tagline">{{ evento.data|date:"g \d\e F" }}, {{ evento.local }}, {{ evento.cidade }}</h2>
 
-
-<!-- HEADER -->
-<header class="header">
-  <div class="wrapper">
-    <img src="{% static 'custom/pythonrio.png' %}" />
-    <h1 class="logo-name">
-      <a class="logo-link" href="#" title="Meetup PythonRio" itemprop="name">Meetup PythonRio</a>
-    </h1>
-    <h2 class="tagline">31 de janeiro, Hotel Urbano, Rio de Janeiro</h2>
-
-
-      <div class="call-action-area">
-
-
-
-          <a href="http://www.eventick.com.br/meetup-python-rio" class="call-action-link" title="Registre-se">Registre-se</a>
-
+        <div class="call-action-area">
+          <a href="{{ evento.inscricoes }}" class="call-action-link" title="Registre-se">Registre-se</a>
+        </div>
       </div>
+    </header>
+    <!--  / HEADER -->
 
-  </div>
-</header>
-<!--  / HEADER -->
-
-<hr>
+    <hr>
 
     <!-- CONTENT -->
     <div class="content" id="content">
       <div class="wrapper">
 
-  <!-- ABOUT -->
+        <!-- ABOUT -->
+        <section class="about" id="about">
+          <h2 class="section-title">Sobre</h2>
+          {{ evento.sobre|linebreaks }}
+        </section>
+        <!-- / ABOUT -->
 
-  <section class="about" id="about">
-    <h2 class="section-title">Sobre</h2>
-    {{ edicao.sobre|linebreaks }}
-  </section>
+        <!-- LOCATION -->
+        <section class="location" id="location">
+          <h2 class="section-title">Localização</h2>
 
-  <!-- / ABOUT -->
+          <p itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
+            <span itemprop="streetAddress">{{ evento.endereco }}</span>
+            <span itemprop="addressLocality">{{ evento.cidade }}</span>,
+            <span itemprop="addressRegion">{{ evento.estado }}</span>
+          </p>
 
-  <!-- LOCATION -->
+          <div id="map-canvas" class="location-area" data-address="{{ evento.endereco }} {{ evento.cidade }} {{ evento.estado }}"></div>
+        </section>
+        <!-- / LOCATION -->
 
-  <section class="location" id="location">
-    <h2 class="section-title">Localização</h2>
+        <!-- SPEAKERS -->
+        <section class="speakers" id="speakers">
+          <h2 class="section-title">Convidados</h2>
 
-<p itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
-  <span itemprop="streetAddress">Av. Ayrton Senna, 2.150, BLOCO I, sala 204, Barra da Tijuca. </span>
-  <span itemprop="addressLocality">Rio de Janeiro</span>,
-  <span itemprop="addressRegion"> RJ</span>
-</p>
+          <ul class="speakers-list">
+            {% for palestra in evento.palestras.all %}
+              <li class="speakers-item" itemprop="performer" itemscope itemtype="http://schema.org/Person">
+                <span class="speaker-photo">
+                  <img class="photo" src="{{ palestra.palestrante.foto.url }}" alt="{{ palestra.palestrante.nome }}" itemprop="image">
+                </span>
 
-<div id="map-canvas" class="location-area" data-address="Av. Ayrton Senna, 2.150, BLOCO I, sala 204, Barra da Tijuca"></div>
-  </section>
+                <h3 class="speech-title">
+                  <span>{{ palestra.titulo }}</span>
+                </h3>
 
-  <!-- / LOCATION -->
+                <h3 class="speakers-name">
+                  {{ palestra.palestrante.nome }} <a href="{{ palestra.palestrante.github }}" title="">GitHub</a> | <a href="{{ palestra.palestrante.twitter }}" title="">Twitter</a>
+                </h3>
+                <p class="speakers-bio">
+                  {{ palestra.palestrante.sobre|linebreaks }}
+                </p>
+              </li>
+            {% endfor %}
+          </ul>
+        </section>
+        <!-- / SPEAKERS -->
 
-  <!-- SPEAKERS -->
+        <!-- PARTNERS -->
+        <section class="partners" id="partners">
+          <h2 class="section-title">Parceiros</h2>
+          <ul class="partners-list">
+            {% for parceiro in evento.parceiros.all %}
+              <li class="partner-item" itemscope itemtype="http://schema.org/Organization">
+                <a href="{{ parceiro.site }}" class="partner-logo partner-link" itemprop="url">
+                  <img src="{{ parceiro.logo.url }}" alt="{{ parceiro.nome }}" class="photo" itemprop="image">
+                </a>
+              </li>
+            {% endfor %}
+          </ul>
+        </section>
+        <!-- / PARTNERS -->
 
-  <section class="speakers" id="speakers">
-    <h2 class="section-title">Convidados</h2>
-
-<ul class="speakers-list">
-
-
-    <li class="speakers-item" itemprop="performer" itemscope itemtype="http://schema.org/Person">
-
-        <span class="speaker-photo">
-          <img class="photo" src="themes/blue-is-the-warmest-color/custom/aoqfonseca.png" alt="André Fonseca" itemprop="image">
-        </span>
-
-
-      <h3 class="speech-title">
-
-          <span> Escrevendo API's em Python</span>
-      </h3>
-
-      <h3 class="speakers-name">André Fonseca <a href="https://github.com/aoqfonseca" title="@aoqfonseca">@aoqfonseca</a></h3>
-      <p class="speakers-bio">Desenvolvedor com mais de 10 anos de experiência e apaixonado pelo que faz. Acredito que TI é um caminho para facilitar e permitir mais. Tecnologia é o meio e não fim. Por isso procuro a melhor ferramenta para o trabalho. Embora tenha predileção por mais produtivas. Ruby, Java, Python, Javascript, Groovy, etc.</p>
-    </li>
-
-
-
-    <li class="speakers-item" itemprop="performer" itemscope itemtype="http://schema.org/Person">
-
-        <span class="speaker-photo">
-          <img class="photo" src="themes/blue-is-the-warmest-color/custom/hugoleodev.jpg" alt="Hugo Leonardo" itemprop="image">
-        </span>
-
-
-      <h3 class="speech-title">
-
-          <span> Deploy de aplicações Django com Ansible</span>
-      </h3>
-
-      <h3 class="speakers-name">Hugo Leonardo <a href="https://github.com/hugoleodev" title="@hugoleodev">@hugoleodev</a></h3>
-      <p class="speakers-bio">Desenvolvedor de software com experiência em soluções Web e integrações entre sistemas. Além de grande interesse em ferramentas de provisionamento de servidores como Chef, Puppet e Ansible.</p>
-    </li>
-
-
-</ul>
-  </section>
-
-  <!-- / SPEAKERS -->
-
-  <!-- PARTNERS -->
-
-  {% if partners %}
-  <section class="partners" id="partners">
-    <h2 class="section-title">Parceiros</h2>
-    <ul class="partners-list">
-      {% for partner in partners %}
-      <li class="partner-item" itemscope itemtype="http://schema.org/Organization">
-        <a href="http://www.nitisoffice.com.br/" class="partner-logo partner-link" itemprop="url">
-          <img src="themes/blue-is-the-warmest-color/custom/nitis_logo.png" alt="Nitis Office" class="photo" itemprop="image">
-        </a>
-      </li>
-      {% endfor %}
-    </ul>
-  </section>
-  {% endif %}
-
-  <!-- / PARTNERS -->
+        <!-- CONTACT -->
+        <section id="contact" class="contact">
+          <h2 class="section-title">Contato</h2>
+          <form method="post" action="contato/" id="form" class="form">
+            <div class="control-group control-group-name">
+              <label for="name">Nome</label>
+              <input type="text" name="name" id="name" placeholder="Seu nome">
+            </div>
+            <div class="control-group control-group-email">
+              <label for="email">E-mail</label>
+            <input type="email" name="email" id="email" placeholder="Seu e-mail">
+            </div>
+            <div class="control-group">
+              <label for="message">Mensagem</label>
+            <textarea name="" id="message" cols="30" rows="10" placeholder="Sua mensagem"></textarea>
+            </div>
+            <input class="btn btn-send" type="submit" value="Enviar">
+          </form>
+        </section>
+        <!-- / CONTACT -->
 
         <!-- FOOTER -->
         <footer class="footer">
@@ -192,30 +176,26 @@
       </div>
     </div>
     <!-- / CONTENT -->
-
   </div>
 
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-  <script>window.jQuery || document.write('<script src="themes/blue-is-the-warmest-color/js/jquery.js"><\/script>')</script>
-
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+  <script>window.jQuery || document.write('<script src="{% static 'js/jquery.js' %}"><\/script>')</script>
 
   <script src="http://maps.google.com/maps/api/js?sensor=false"></script>
-  <script src="themes/blue-is-the-warmest-color/js/main.js"></script>
-
+  <script src="{% static 'js/main.js' %}"></script>
 
   <!-- GOOGLE ANALYTICS -->
   <script type="text/javascript">
-      var _gaq = _gaq || [];
-      _gaq.push(['_setAccount', 'UA-33656081-1']);
-      _gaq.push(['_trackPageview']);
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-33656081-1']);
+    _gaq.push(['_trackPageview']);
 
-      (function() {
+    (function() {
       var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
       ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
       var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-      })();
+    })();
   </script>
   <!-- /GOOGLE ANALYTICS -->
-
 </body>
 </html>

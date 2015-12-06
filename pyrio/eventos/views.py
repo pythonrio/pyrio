@@ -1,14 +1,10 @@
 from django.views import generic
-from pyrio.eventos.models import Edicao
+from pyrio.eventos.models import Evento
 
 
-class IndexView(generic.TemplateView):
+class IndexView(generic.DetailView):
     template_name = 'index.html'
+    context_object_name = 'evento'
 
-    def get_context_data(self, **kwargs):
-        edicao = Edicao().get_edicao_atual()
-
-        return {
-            'edicao': edicao,
-            'partners': edicao.parceiro_set.all()
-        }
+    def get_object(self, queryset=None):
+        return Evento.objects.get_edicao_atual()
