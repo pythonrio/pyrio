@@ -46,10 +46,18 @@ class EventoAdmin(admin.ModelAdmin):
     ]
 
     def copiar_evento(self, request, queryset):
+        # TODO(andre): Copiar parceiros e talvez palestrantes
         for instance in queryset:
             instance.pk = None
             instance.nome += ' (Cópia)'
             instance.save()
+
+        if len(queryset) > 1:
+            message = 'eventos foram copiados com sucesso.'
+        else:
+            message = 'evento foi copiado com sucesso.'
+
+        self.message_user(request, '{} {}'.format(len(queryset), message))
 
 
 @admin.register(models.Palestrante)
