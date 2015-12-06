@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # 3rd
     'debug_toolbar',
+    'django_extensions',
     'storages',
     # project
     'pyrio.core',
