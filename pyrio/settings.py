@@ -28,8 +28,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # 3rd
-
+    'debug_toolbar',
+    'storages',
     # project
+    'pyrio.core',
     'pyrio.eventos',
 ]
 
@@ -115,6 +117,13 @@ AWS_STORAGE_BUCKET_NAME = 'pythonrio'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
+
+DEFAULT_FILE_STORAGE = config('DEFAULT_FILE_STORAGE')
+DEFAULT_S3_PATH = 'media'
+
+
+STATICFILES_STORAGE = config('STATICFILES_STORAGE')
+STATIC_S3_PATH = 'static'
 
 STATICFILES_DIRS = [
     str(BASE_DIR / 'static'),
