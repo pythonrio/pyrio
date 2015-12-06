@@ -115,8 +115,7 @@ AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
 
 AWS_STORAGE_BUCKET_NAME = 'pythonrio'
 
-AWS_S3_SECURE_URLS = False
-AWS_S3_CUSTOM_DOMAIN = 'pythonrio.s3-website-us-east-1.amazonaws.com'
+AWS_S3_CUSTOM_DOMAIN = 's3.amazonaws.com/pythonrio'
 
 AWS_PRELOAD_METADATA = True
 
