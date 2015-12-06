@@ -68,7 +68,7 @@
         <h1 class="logo-name">
           <a class="logo-link" href="#" title="Meetup PythonRio" itemprop="name">{{ evento.nome }}</a>
         </h1>
-        <h2 class="tagline">{{ evento.data|date:"g \d\e F" }}, {{ evento.local }}, {{ evento.cidade }}</h2>
+        <h2 class="tagline">{{ evento.data|date:"d \d\e F" }}, {{ evento.local }}, {{ evento.cidade }}</h2>
 
         <div class="call-action-area">
           <a href="{{ evento.inscricoes }}" class="call-action-link" title="Registre-se">Registre-se</a>
