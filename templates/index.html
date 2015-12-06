@@ -7,17 +7,17 @@
   <title itemprop="name">{{ evento.nome }}</title>
 
   <meta charset="utf-8">
-  <meta name="author" content="Meetup PythonRio">
-  <meta name="description" content="Meetup de Python no Rio de Janeiro">
+  <meta name="author" content="{{ evento.nome }}">
+  <meta name="description" content="{{ evento.nome }}">
   <meta name="viewport" content="width=device-width">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
   <!-- FACEBOOK -->
   <meta property="fb:app_id" content="372862979453673">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="http://pythonrio.github.io">
-  <meta property="og:title" content="Meetup PythonRio">
-  <meta property="og:description" content="Meetup de Python no Rio de Janeiro">
+  <meta property="og:url" content="{{ request.build_absolute_uri }}">
+  <meta property="og:title" content="{{ evento.nome }}">
+  <meta property="og:description" content="{{ evento.nome }}">
   <meta property="og:image" content="{% static 'img/pythonrio.png' %}">
   <!-- / FACEBOOK -->
 
