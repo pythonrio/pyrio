@@ -1,5 +1,8 @@
-from django.utils import timezone
+from django.core.urlresolvers import reverse
 from django.db import models
+from django.utils import timezone
+
+from autoslug import AutoSlugField
 
 
 class EventoQuerySet(models.QuerySet):
@@ -17,6 +20,14 @@ class Evento(models.Model):
         verbose_name='Nome do Evento',
         max_length=90,
         help_text='Ex.: Meetup PythonRio',
+    )
+
+    slug = AutoSlugField(
+        verbose_name='Slug',
+        populate_from='nome',
+        always_update=True,
+        db_index=True,
+        unique=True,
     )
 
     data = models.DateTimeField(
@@ -51,14 +62,26 @@ class Evento(models.Model):
         verbose_name='URL para as incrições',
     )
 
+    parceiros = models.ManyToManyField(
+        to='Parceiro',
+        blank=True,
+        related_name='parceiros',
+    )
+
     objects = EventoQuerySet.as_manager()
 
     class Meta:
+        ordering = [
+            'nome',
+        ]
         verbose_name = 'Evento'
         verbose_name_plural = 'Eventos'
 
     def __str__(self):
         return '{}'.format(self.nome)
+
+    def get_absolute_url(self):
+        return reverse('index', kwargs={'pk': self.pk, 'slug': self.slug})
 
 
 class Palestrante(models.Model):
@@ -98,14 +121,9 @@ class Palestra(models.Model):
 
 
 class Parceiro(models.Model):
-    evento = models.ForeignKey(
-        to='Evento',
-        related_name='parceiros',
-    )
-
     nome = models.CharField(max_length=90)
     logo = models.ImageField(upload_to='parceiros/')
-    # site
+    site = models.URLField()
 
     class Meta:
         verbose_name = 'Parceiro'
