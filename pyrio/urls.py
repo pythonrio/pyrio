@@ -7,5 +7,6 @@ from pyrio.eventos import views as eventos_view
 
 urlpatterns = [
     url(r'^$', eventos_view.IndexView.as_view(), name='index'),
+    url(r'^(?P<pk>\d+)/(?P<slug>[-\w]+)/$', eventos_view.IndexView.as_view(), name='index'),
     url(r'^admin/', admin.site.urls),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

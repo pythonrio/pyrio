@@ -7,4 +7,10 @@ class IndexView(generic.DetailView):
     context_object_name = 'evento'
 
     def get_object(self, queryset=None):
+        pk = self.kwargs.get(self.pk_url_kwarg)
+        slug = self.kwargs.get(self.slug_url_kwarg)
+
+        if pk:
+            return Evento.objects.get(pk=pk, slug=slug)
+
         return Evento.objects.get_edicao_atual()
