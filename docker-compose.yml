@@ -1,0 +1,16 @@
+web:
+  build: .
+  command: python manage.py runserver 0.0.0.0:8000
+  environment:
+    - PYTHONDONTWRITEBYTECODE=1
+    - PYTHONUNBUFFERED=1
+  ports:
+    - 8000:8000
+  volumes:
+    - .:/usr/src/app
+  links:
+    - postgres
+
+
+postgres:
+  image: postgres
